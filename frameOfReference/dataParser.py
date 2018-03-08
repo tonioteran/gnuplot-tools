@@ -44,13 +44,25 @@ if status:
     data = []
     outputfilename = 'outFileWithFrames_' + str(localTime.tm_hour) + '-' + str(localTime.tm_min) + '-' + str(localTime.tm_sec) + '.dat'
     outputfile = open(outputfilename, 'w')
+    outputfile.write('# Augmented data file with coordinate frame info.')
     # Iterate over each datafile line, and write out augmented data file:
     for line in datafile:
         if line[0] != '#':
             tempData = line.split(separatorChar) 		# Split line into values
+            tempData[-1] = tempData[-1].split('\n')[0]		# Get rid of the new line
             quat = getQuatFromData(tempData,quatColumn)		# Get quaternion in array form
             rotMatrix = getRotMatrix(quat)			# Transform into rot matrix
             axisEndPointDeltas = getRotFramePoints(rotMatrix)	# Get rot frame deltas
+            outputfile.write('\n')
+            # Write data to output file:
+            for e in tempData:
+                outputfile.write(e)
+                outputfile.write(', ')
+            for p in axisEndPointDeltas:
+                for i in range(len(p)):
+                    outputfile.write(', ')
+                    outputfile.write(str(p[i,0]))
+
             
             print(tempData)
             print('------')
