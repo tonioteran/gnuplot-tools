@@ -21,6 +21,9 @@ import sys, os, time
 # Custom imports:
 from mathHelperFxns import getQuatFromData,getRotMatrix,getRotFramePoints
 
+# Parameters:
+FRAME_LENGTH = 0.3
+
 status = True; localTime = time.localtime();
 # Check for included arguments:
 if len(sys.argv) == 4:
@@ -53,11 +56,13 @@ if status:
             quat = getQuatFromData(tempData,quatColumn)		# Get quaternion in array form
             rotMatrix = getRotMatrix(quat)			# Transform into rot matrix
             axisEndPointDeltas = getRotFramePoints(rotMatrix)	# Get rot frame deltas
+            scaledFrame = scaleFrame(axisEndPointDeltas)
             outputfile.write('\n')
             # Write data to output file:
-            for e in tempData:
+            for i,e in enumerate(tempData):
+                if i != 0:
+                    outputfile.write(', ')
                 outputfile.write(e)
-                outputfile.write(', ')
             for p in axisEndPointDeltas:
                 for i in range(len(p)):
                     outputfile.write(', ')
