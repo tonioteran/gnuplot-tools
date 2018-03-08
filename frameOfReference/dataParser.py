@@ -16,9 +16,12 @@ Usage:		$ ./dataParser.py pathAndNameOfDataFile [separatorCharacter]
 
 # Useful imports:
 import numpy as np
-import sys, os
+import sys, os, time
 
-status = True
+# Custom imports:
+from mathHelperFxns import getQuatFromData,getRotMatrix,getRotFramePoints
+
+status = True; localTime = time.localtime();
 # Check for included arguments:
 if len(sys.argv) == 4:
     separatorChar = ',' # set default value
@@ -39,20 +42,17 @@ else:
 
 if status:
     data = []
+    outputfilename = 'outFileWithFrames_' + str(localTime.tm_hour) + '-' + str(localTime.tm_min) + '-' + str(localTime.tm_sec) + '.dat'
+    outputfile = open(outputfilename, 'w')
     # Iterate over each datafile line, and write out augmented data file:
     for line in datafile:
         if line[0] != '#':
-            tempData = line.split(separatorChar)
+            tempData = line.split(separatorChar) 		# Split line into values
+            quat = getQuatFromData(tempData,quatColumn)		# Get quaternion in array form
+            rotMatrix = getRotMatrix(quat)			# Transform into rot matrix
+            axisEndPointDeltas = getRotFramePoints(rotMatrix)	# Get rot frame deltas
+            
             print(tempData)
-            print(tempData[0])
-            print(tempData[1])
-            print(tempData[2])
-            print(tempData[3])
-            print(tempData[4])
-            print(str(float(tempData[2].split('\t')[1])))
-            print(str(float(tempData[2])))
-            print(tempData[2].split('\t'))
-#            print(str(int(tempData[2])))
             print('------')
             
             
@@ -60,7 +60,6 @@ if status:
 
 
 
-
-
-
 # end
+datafile.close()
+outputfile.close()
