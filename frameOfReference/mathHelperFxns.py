@@ -45,6 +45,36 @@ def getRotFramePoints(rotMatrix):
     return [rotMatrix*ux, rotMatrix*uy, rotMatrix*uz]
 
 
+def scaleFrame(rotAxesDeltas,axesSize):
+    '''
+    Scales the axes deltas by the axesSize parameter
+    Input:    rotAxesDeltas - array, with three numpy arrays inside
+    	           axesSize - float, scale
+    Output:     scaledFrame - array, with three scaled numpy arrays
+    '''
+    scaledDeltas = []
+    for p in rotAxesDeltas:
+        scaledDeltas.append( axesSize*p )
+    return scaledDeltas
+        
+
+
+def getScaledFrame(data,quatColumn,axesSize):
+    '''
+    
+    Input:         data - array, from text file
+    	     quatColumn - int, position of first quat value
+    	       axesSize - float, scale for axes size
+    Output: scaledFrame - array, with numpy arrays containing scaled axes
+    '''
+    quat = getQuatFromData(data,quatColumn)		# Get quaternion in array form
+    rotMatrix = getRotMatrix(quat)			# Transform into rot matrix
+    axisEndPointDeltas = getRotFramePoints(rotMatrix)	# Get rot frame deltas
+    scaledFrame = scaleFrame(axisEndPointDeltas,axesSize)
+    return scaledFrame
+
+
+
     
 
 
