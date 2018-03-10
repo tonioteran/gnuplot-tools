@@ -84,11 +84,7 @@ if status:
             print(tempData)
             print('------')
             
-            
-
-
-
-
+    datafile.close()
+    outputfile.close()
 # end
-datafile.close()
-outputfile.close()
+
