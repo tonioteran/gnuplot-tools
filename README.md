@@ -14,4 +14,9 @@ Take in the eigenvalues of the covariance matrix, and plot a 3d ellipsoid denoti
 
 Explain input/output. Idea: take in quats, convert into rot matrices, and transform endopoints of unit vectors. Use python to translate them to their corresponding coordinate, and append them to a ``.dat`` file.
 
+Some examples of the resulting plots:
+![Ground Truth](https://github.com/tonioteran/gnuplot-tools/blob/master/frameOfReference/figures/gt.png)
+![Initial Estimates](https://github.com/tonioteran/gnuplot-tools/blob/master/frameOfReference/figures/init.png)
+![GTSAM Results](https://github.com/tonioteran/gnuplot-tools/blob/master/frameOfReference/figures/out.png)
+
 
